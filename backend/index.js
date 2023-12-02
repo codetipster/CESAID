@@ -1,6 +1,11 @@
-
 const express = require('express');
 const app = express();
+
+const connectDB = require('./database');
+connectDB();
+
+
+
 const port = 3000;
 
 app.get('/', (req, res) => {
