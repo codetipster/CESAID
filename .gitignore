@@ -1,0 +1,10 @@
+node_modules
+.env
+
+# Frontend specific
+/frontend/node_modules
+/frontend/.env
+/frontend/build/
+/frontend/.eslintcache
+/frontend/.prettiercache
+/frontend/*.log
