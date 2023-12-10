@@ -1,47 +1,55 @@
 import React, { useState } from "react";
 import { TextField, Button, Box, Typography, Paper } from "@mui/material";
-import { EmailOutlined, LockOutlined } from "@mui/icons-material";
+import {
+  EmailOutlined,
+  LockOutlined,
+  Person2Outlined,
+} from "@mui/icons-material";
 import Logo from "../assets/cesaid.jpg";
 import { ColorRing } from "react-loader-spinner";
-import BackgroundImage from "../assets/bgimage.jpeg";
+import BackgroundImage from "../assets/bgnight.jpg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = () => {
+const Signup = () => {
   const navigate = useNavigate();
+
+  // State hooks for form inputs
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); // Start loading
 
     // Prepare the user data
-    const loginData = {
+    const userData = {
+      username,
       email,
       password,
     };
 
     try {
-      console.log(loginData);
+      console.log(userData);
       // Send a POST request to your API endpoint
       const response = await axios.post(
         "https://yourapi.com/register",
-        loginData,
+        userData,
       );
-
-      setLoading(false); // Stop loading on success
-      alert(response.data.message);
-      navigate("/");
+      setLoading(false);
+      // Handle success (you may want to navigate to a different page or show a success message)
+      alert(response.data.message); // Or use a more sophisticated approach than alert
+      navigate("/login");
     } catch (error) {
       // Handle errors (e.g., display error message)
+      console.error("Registration error:", error);
       setLoading(false); // Stop loading on error
-      console.error("Login error:", error);
       alert(error.response.data.message); // Or use a more sophisticated approach than alert
     }
   };
 
+  // Update state on input change
   const handleInputChange = (e, setter) => setter(e.target.value);
 
   return (
@@ -69,7 +77,7 @@ const Login = () => {
       }}
     >
       {loading ? (
-        <ColorRing /> // Display loader when loading
+        <ColorRing />
       ) : (
         <Paper
           elevation={6}
@@ -79,7 +87,7 @@ const Login = () => {
             padding: "20px",
             display: "flex",
             flexDirection: "column",
-            backgroundColor: "#F6F7F8",
+            backgroundColor: "#E1ECF4",
             alignItems: "center",
             justifyContent: "center",
             "& > *": {
@@ -104,13 +112,28 @@ const Login = () => {
             variant="p"
             sx={{ mt: 3, color: "#011627" }}
           >
-            Please Login to Continue
+            Please Create your User Account
           </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
             sx={{ mt: 1, width: "100%", maxWidth: "300px" }}
           >
+            <TextField
+              onChange={(e) => handleInputChange(e, setUsername)}
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="text"
+              autoFocus
+              InputProps={{
+                startAdornment: <Person2Outlined sx={{ mr: 2 }} />,
+              }}
+            />
             <TextField
               onChange={(e) => handleInputChange(e, setEmail)}
               variant="outlined"
@@ -126,6 +149,7 @@ const Login = () => {
                 startAdornment: <EmailOutlined sx={{ mr: 2 }} />,
               }}
             />
+
             <TextField
               onChange={(e) => handleInputChange(e, setPassword)}
               variant="outlined"
@@ -133,7 +157,7 @@ const Login = () => {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="Set A Password"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -147,17 +171,13 @@ const Login = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Create Account
             </Button>
             <Button fullWidth variant="text">
-              Forgot your password?
+              Already have an account?
             </Button>
-            <Button
-              fullWidth
-              variant="text"
-              onClick={() => navigate("/signup")}
-            >
-              Create account
+            <Button fullWidth variant="text" onClick={() => navigate("/login")}>
+              Login
             </Button>
           </Box>
         </Paper>
@@ -166,4 +186,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

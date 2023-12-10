@@ -8,6 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import LoadingOverlay from "./components/LoadingOverlay"; // If you're using a loading overlay
 import Settings from "./pages/Settings";
 import Home from "./pages/Home";
@@ -57,6 +58,7 @@ function App() {
             <Route path="/" exact element={<Home />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
         </Router>
       </DataProvider>
